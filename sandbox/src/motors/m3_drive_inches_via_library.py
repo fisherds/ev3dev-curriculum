@@ -46,8 +46,10 @@ def main():
             break
 
         robot.drive_inches(inches_target, speed_deg_per_second)
+        ev3.Sound.beep().wait()  # Fun little beep
 
     ev3.Sound.speak("Goodbye").wait()
+
 
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.

@@ -32,3 +32,32 @@ Authors: David Fisher and PUT_YOUR_NAME_HERE.
 #
 # Observations you should make, using run_to_rel_pos is useful for accurate turns, but testing takes time.
 
+import ev3dev.ev3 as ev3
+import robot_controller as robo
+
+
+def main():
+    print("--------------------------------------------")
+    print(" Turn degrees")
+    print("--------------------------------------------")
+    ev3.Sound.speak("Turn degrees").wait()
+    robot = robo.Snatch3r()
+
+    while True:
+        speed_deg_per_second = int(input("What speed would you like to go (0 to 900)? "))
+        if speed_deg_per_second == 0:
+            break
+        degrees_target = int(input("How many degrees would you like to turn? "))
+        if degrees_target == 0:
+            break
+        robot.turn_degrees(degrees_target, speed_deg_per_second)
+        ev3.Sound.beep().wait()  # Fun little beep
+
+    ev3.Sound.speak("Goodbye").wait()
+
+
+# ----------------------------------------------------------------------
+# Calls  main  to start the ball rolling.
+# ----------------------------------------------------------------------
+main()
+

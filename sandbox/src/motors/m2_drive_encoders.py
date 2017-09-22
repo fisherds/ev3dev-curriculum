@@ -26,3 +26,48 @@ Authors: David Fisher and PUT_YOUR_NAME_HERE.
 # Observations you should make, run_to_rel_pos is easier to use since it uses encoders that are independent of speed.
 
 
+import ev3dev.ev3 as ev3
+import time
+
+
+def main():
+    print("--------------------------------------------")
+    print(" Drive using encoders")
+    print("--------------------------------------------")
+    ev3.Sound.speak("Drive using encoders").wait()
+
+    # Connect two large motors on output ports B and C
+    left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+    right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+
+    # Check that the motors are actually connected
+    assert left_motor.connected
+    assert right_motor.connected
+
+    inches_target = 1  # Any value other than 0.
+    while inches_target != 0:
+        speed_in_degrees_per_second = int(input("What speed would you like to go (0 to 900)? "))
+        if speed_in_degrees_per_second == 0:
+            break
+        inches_target = int(input("How many inches would you like to travel (0 to exit)? "))
+        if inches_target == 0:
+            break
+
+        degrees_per_inch = 90
+        motor_turns_deg = inches_target * degrees_per_inch
+
+        left_motor.run_to_rel_pos(position_sp=motor_turns_deg, speed_sp=speed_in_degrees_per_second, stop_action="brake")
+        right_motor.run_to_rel_pos(position_sp=motor_turns_deg, speed_sp=speed_in_degrees_per_second, stop_action="brake")
+
+        left_motor.wait_while("running")  # Wait for the turn to finish
+        right_motor.wait_while("running")  # Wait for the turn to finish
+        ev3.Sound.beep().wait()  # Fun little beep
+
+    ev3.Sound.speak("Goodbye").wait()
+
+
+# ----------------------------------------------------------------------
+# Calls  main  to start the ball rolling.
+# ----------------------------------------------------------------------
+main()
+

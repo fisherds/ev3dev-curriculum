@@ -36,6 +36,9 @@ def main():
 
         # TODO: 2. Individually implement the code here to use your drive_inches and turn_degrees library methods to
         # drive a polygon with the correct number of sides. Hint 3 lines of code total need to be added.
+        for _ in range(sides):
+            robot.drive_inches(edge_length_in, speed_deg_per_second)
+            robot.turn_degrees(turn_amount, speed_deg_per_second)
 
     ev3.Sound.speak("Goodbye").wait()
 
