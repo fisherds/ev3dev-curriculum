@@ -13,6 +13,7 @@ Authors: David Fisher and PUT_YOUR_NAME_HERE.
 # to work, then have that person commit their work.  All other team members need to do a VCS --> Update project...
 # Once the library is implemented each team member should be able to run their version of this code on the robot.
 #
+
 # Observations you should make, you are a TEAM and making great library methods will make life easier for everyone.
 
 import ev3dev.ev3 as ev3
