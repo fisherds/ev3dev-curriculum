@@ -49,23 +49,24 @@ class MyDelegate(object):
     # TODO: 2. Prepare the one and only delegate method, set_led, to receive messages as described above.
     # Here is some code that will likely be useful in this method to convert the led_side_string and led_color_string
     # into a useful led_side and led_color values that can be used with the ev3.Leds.set_color method.
-    #     led_side = None
-    #     if led_side_string == "left":
-    #         led_side = ev3.Leds.LEFT
-    #     elif led_side_string == "right":
-    #         led_side = ev3.Leds.RIGHT
-    #
-    #     led_color = None
-    #     if led_color_string == "green":
-    #         led_color = ev3.Leds.GREEN
-    #     elif led_color_string == "red":
-    #         led_color = ev3.Leds.RED
-    #     elif led_color_string == "black":
-    #         led_color = ev3.Leds.BLACK
-    #
-    #     if led_side is None or led_color is None:
-    #         print("Invalid parameters sent to set_led. led_side_string = {} led_color_string = {}".format(
-    #             led_side_string, led_color_string))
+    def set_led(self, led_side_string, led_color_string):
+        led_side = None
+        if led_side_string == "left":
+            led_side = ev3.Leds.LEFT
+        elif led_side_string == "right":
+            led_side = ev3.Leds.RIGHT
+
+        led_color = None
+        if led_color_string == "green":
+            led_color = ev3.Leds.GREEN
+        elif led_color_string == "red":
+            led_color = ev3.Leds.RED
+        elif led_color_string == "black":
+            led_color = ev3.Leds.BLACK
+
+        if led_side is None or led_color is None:
+            print("Invalid parameters sent to set_led. led_side_string = {} led_color_string = {}".format(
+                led_side_string, led_color_string))
 
 
 def main():
@@ -79,9 +80,10 @@ def main():
     # Once you have that done connect the mqtt_client.
     # To help you out this time you simply need to uncomment the code below.
     #
-    # my_delegate = MyDelegate()
-    # mqtt_client = com.MqttClient(my_delegate)
+    my_delegate = MyDelegate()
+    mqtt_client = com.MqttClient(my_delegate)
     # mqtt_client.connect_to_pc()
+    mqtt_client.connect_to_pc("35.194.247.175")
 
     # Buttons on EV3
     btn = ev3.Button()
@@ -112,6 +114,7 @@ def handle_button_press(button_state, mqtt_client, button_name):
         #   - Call the method called "button_pressed" on the delegate at the other end of the pipe.
         #   - Pass the parameters [button_name] as a list.
         # This is meant to help you learn the mqtt_client.send_message syntax.
+        mqtt_client.send_message("button_pressed", [button_name])
 
 
 # TODO 5: Run this program on your EV3 and run m3_pc_led_button_communication.py on your PC.
