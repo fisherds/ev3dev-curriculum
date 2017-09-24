@@ -21,6 +21,7 @@ class MyDelegateOnThePc(object):
         self.display_label = label_to_display_messages_in
 
     def button_pressed(self, button_name):
+        print("Received: " + button_name)
         message_to_display = "{} was pressed.".format(button_name)
         self.display_label.configure(text=message_to_display)
 

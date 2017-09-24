@@ -31,7 +31,7 @@ communication.  Summary of the communication:
 
 Implement the TODOs below to complete this module.
 
-Authors: David Fisher and PUT_YOUR_NAME_HERE.
+Authors: David Fisher and PUT_YOUR_NAME_HERE.  January 2017.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 
@@ -49,7 +49,28 @@ class MyDelegate(object):
     # TODO: 2. Prepare the one and only delegate method, set_led, to receive messages as described above.
     # Here is some code that will likely be useful in this method to convert the led_side_string and led_color_string
     # into a useful led_side and led_color values that can be used with the ev3.Leds.set_color method.
+    #     led_side = None
+    #     if led_side_string == "left":
+    #         led_side = ev3.Leds.LEFT
+    #     elif led_side_string == "right":
+    #         led_side = ev3.Leds.RIGHT
+    #
+    #     led_color = None
+    #     if led_color_string == "green":
+    #         led_color = ev3.Leds.GREEN
+    #     elif led_color_string == "red":
+    #         led_color = ev3.Leds.RED
+    #     elif led_color_string == "black":
+    #         led_color = ev3.Leds.BLACK
+    #
+    #     if led_side is None or led_color is None:
+    #         print("Invalid parameters sent to set_led. led_side_string = {} led_color_string = {}".format(
+    #             led_side_string, led_color_string))
+
     def set_led(self, led_side_string, led_color_string):
+        """Sets the LED to the appropriate color."""
+        print("Received: {} {}".format(led_side_string, led_color_string))
+
         led_side = None
         if led_side_string == "left":
             led_side = ev3.Leds.LEFT
@@ -67,6 +88,8 @@ class MyDelegate(object):
         if led_side is None or led_color is None:
             print("Invalid parameters sent to set_led. led_side_string = {} led_color_string = {}".format(
                 led_side_string, led_color_string))
+        else:
+            ev3.Leds.set_color(led_side, led_color)
 
 
 def main():
@@ -80,9 +103,11 @@ def main():
     # Once you have that done connect the mqtt_client.
     # To help you out this time you simply need to uncomment the code below.
     #
+    # my_delegate = MyDelegate()
+    # mqtt_client = com.MqttClient(my_delegate)
+    # mqtt_client.connect_to_pc()
     my_delegate = MyDelegate()
     mqtt_client = com.MqttClient(my_delegate)
-    # mqtt_client.connect_to_pc()
     mqtt_client.connect_to_pc("35.194.247.175")
 
     # Buttons on EV3
