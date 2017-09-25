@@ -32,7 +32,8 @@ import robot_controller as robo
 def main():
     robot = robo.Snatch3r()
     mqtt_client = com.MqttClient(robot)
-    mqtt_client.connect_to_pc()
+    # mqtt_client.connect_to_pc()
+    mqtt_client.connect_to_pc("35.194.247.175")
     # mqtt_client.connect_to_pc("localhost")  # Off campus use EV3's IP address as broker
     robot.loop_forever()  # Calls a function that has a while True: loop within it to avoid letting the program end.
 
