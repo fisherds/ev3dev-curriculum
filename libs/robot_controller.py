@@ -132,26 +132,20 @@ class Snatch3r(object):
 
     def seek_beacon(self, beacon_channel=1):
         """ Drives to the beacon"""
-
-        # Set the value for the sensor readings based on the IR remote channel
-        # See http://www.ev3dev.org/docs/sensors/lego-ev3-infrared-sensor/
-        heading_value_index = 2 * (beacon_channel - 1)
-        distance_value_index = 1 + 2 * (beacon_channel - 1)
-
-        self.ir_sensor.mode = "IR-SEEK"
+        beacon_seeker = ev3.BeaconSeeker(channel=beacon_channel)
         forward_speed = 300
         turn_speed = 100
         distance_0_readings = 0
 
         while not self.touch_sensor.is_pressed:
             time.sleep(0.1)
-            current_distance = self.ir_sensor.value(distance_value_index)
-            if current_distance == 100:
+            current_distance = beacon_seeker.distance
+            if current_distance == -128:
                 print("IR Remote not found")
                 # self.stop()
                 self.drive(-turn_speed, turn_speed)
                 continue
-            current_heading = self.ir_sensor.value(heading_value_index)
+            current_heading = beacon_seeker.heading
             if math.fabs(current_heading) < 2:
                 # Close enough of a heading to move forward
                 if current_distance > 0:
@@ -161,7 +155,7 @@ class Snatch3r(object):
                     distance_0_readings += 1
                     if distance_0_readings > 5:
                         print("I got the beacon")
-                        break  # Success!
+                        return True
             else:
                 if math.fabs(current_heading) > 10:
                     print("Heading is too far off to fix, just spin: ", current_heading)
