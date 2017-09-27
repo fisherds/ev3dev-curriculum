@@ -23,7 +23,7 @@ support drive and shutdown.
 
 Once the EV3 code is ready, run it on the EV3 you can work on the PC side code for the MQTT Remote Control.
 
-Authors: David Fisher and PUT_YOUR_NAME_HERE.  January 2017.
+Authors: David Fisher and PUT_YOUR_NAME_HERE.
 """
 import mqtt_remote_method_calls as com
 import robot_controller as robo
@@ -32,7 +32,8 @@ import robot_controller as robo
 def main():
     robot = robo.Snatch3r()
     mqtt_client = com.MqttClient(robot)
-    mqtt_client.connect_to_pc()
+    # mqtt_client.connect_to_pc()
+    mqtt_client.connect_to_pc("35.194.247.175")
     # mqtt_client.connect_to_pc("localhost")  # Off campus use EV3's IP address as broker
     robot.loop_forever()  # Calls a function that has a while True: loop within it to avoid letting the program end.
 

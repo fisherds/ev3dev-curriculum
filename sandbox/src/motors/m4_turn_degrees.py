@@ -3,7 +3,7 @@ This module lets you extend what you have learned about driving and extend it to
 
 Much like you have a drive_inches command in your library, you will now make a turn_degrees method.
 
-Authors: David Fisher and PUT_YOUR_NAME_HERE.  January 2017.
+Authors: David Fisher and PUT_YOUR_NAME_HERE.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 # TODO: 2. Create a method in your library called turn_degrees that receives the degrees_to_turn and turn_speed_sp
@@ -31,4 +31,33 @@ Authors: David Fisher and PUT_YOUR_NAME_HERE.  January 2017.
 # Add more tests as you see fit.  Ideally you should be within 45 degrees of back where you started (if you can).
 #
 # Observations you should make, using run_to_rel_pos is useful for accurate turns, but testing takes time.
+
+import ev3dev.ev3 as ev3
+import robot_controller as robo
+
+
+def main():
+    print("--------------------------------------------")
+    print(" Turn degrees")
+    print("--------------------------------------------")
+    ev3.Sound.speak("Turn degrees").wait()
+    robot = robo.Snatch3r()
+
+    while True:
+        speed_deg_per_second = int(input("What speed would you like to go (0 to 900)? "))
+        if speed_deg_per_second == 0:
+            break
+        degrees_target = int(input("How many degrees would you like to turn? "))
+        if degrees_target == 0:
+            break
+        robot.turn_degrees(degrees_target, speed_deg_per_second)
+        ev3.Sound.beep().wait()  # Fun little beep
+
+    ev3.Sound.speak("Goodbye").wait()
+
+
+# ----------------------------------------------------------------------
+# Calls  main  to start the ball rolling.
+# ----------------------------------------------------------------------
+main()
 

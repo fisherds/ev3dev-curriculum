@@ -3,7 +3,7 @@ The goal for this module is to show that usually in our MQTT communication we wi
 that same recipient will be sending messages back to us.  This module also runs only on your PC and has very few todo
 items.  You will simply be setting your name and you will be selecting one person on your team to send messages to.
 
-Authors: David Fisher and PUT_YOUR_NAME_HERE.  January 2017.
+Authors: David Fisher and PUT_YOUR_NAME_HERE.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import tkinter
@@ -58,8 +58,8 @@ def main():
     # Create an MQTT connection
     my_delegate = MyDelegate(chat_window)
     mqtt_client = com.MqttClient(my_delegate)
-    mqtt_client.connect(my_name, team_member_name)
-    # mqtt_client.connect(my_name, team_member_name, "104.154.136.22")  # Off campus use EV3's IP address as broker
+    # mqtt_client.connect(my_name, team_member_name)
+    mqtt_client.connect(my_name, team_member_name, "35.194.247.175")  # Off campus use EV3's IP address as broker
 
     root.mainloop()
 

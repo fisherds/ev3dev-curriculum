@@ -18,7 +18,7 @@ To restart the Brickman interface after you complete this problem type:
 sudo chvt 1
 Which will probably not require you to type the password since sudo was just run earlier.
 
-Authors: David Fisher and PUT_YOUR_NAME_HERE.  January 2017.
+Authors: David Fisher and PUT_YOUR_NAME_HERE.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import ev3dev.ev3 as ev3
@@ -70,11 +70,31 @@ def main():
     #   .on_red_down to call handle_red_down_1 (that exist already) with state and dc as parameters
     #   .on_blue_up to call handle_blue_up_1 (that exist already) with state and dc as parameters
     #   .on_blue_down to call handle_blue_down_1 (that exist already) with state and dc as parameters
+    rc1 = ev3.RemoteControl(channel=1)
+    assert rc1.connected
+    rc1.on_red_up = lambda state: handle_red_up_1(state, dc)
+    rc1.on_red_down = lambda state: handle_red_down_1(state, dc)
+    rc1.on_blue_up = lambda state: handle_blue_up_1(state, dc)
+    rc1.on_blue_down = lambda state: handle_blue_down_1(state, dc)
 
     # TODO: 5. Create remote control objects for channels 2, 3, and 4. Add lambda callbacks for on_red_up to each one:
     #   Channel 2's .on_red_up should call handle_red_up_2 (that exist already) with state and dc as parameters
     #   Channel 3's .on_red_up should call handle_red_up_3 (that exist already) with state and dc as parameters
     #   Channel 4's .on_red_up should call handle_red_up_4 (that exist already) with state and dc as parameters
+    # Remote control channel 2
+    rc2 = ev3.RemoteControl(channel=2)
+    assert rc2.connected
+    rc2.on_red_up = lambda state: handle_red_up_2(state, dc)
+
+    # Remote control channel 3
+    rc3 = ev3.RemoteControl(channel=3)
+    assert rc3.connected
+    rc3.on_red_up = lambda state: handle_red_up_3(state, dc)
+
+    # Remote control channel 4
+    rc4 = ev3.RemoteControl(channel=4)
+    assert rc4.connected
+    rc4.on_red_up = lambda state: handle_red_up_4(state, dc)
 
     # Buttons on EV3
     btn = ev3.Button()
@@ -83,10 +103,14 @@ def main():
     while dc.running:
         # TODO: 4. Call the .process() method on your channel 1 RemoveControl object, then review and run your code.
         #   Review the handle functions below to see how they draw to the screen.  They are already finished.
+        rc1.process()
 
         # TODO: 6. Call the .process() method on your channel 2 - 4 RemoveControl objects and demo your code.
         #   Review the handle functions below to see how they draw to the screen.  They are already finished.
 
+        rc2.process()
+        rc3.process()
+        rc4.process()
         btn.process()
         time.sleep(0.01)
 

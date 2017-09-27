@@ -8,7 +8,7 @@ the more complex callback approach that uses lamdba when data needs to be shared
 Since this module is all about the buttons the Sound code has just been provided as a finished
 example.  You will call different Sound functions using different buttons.
 
-Authors: David Fisher and PUT_YOUR_NAME_HERE.  January 2017.
+Authors: David Fisher and PUT_YOUR_NAME_HERE.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import ev3dev.ev3 as ev3
@@ -46,10 +46,15 @@ def main():
     #   .on_left which is connected to a function called handle_left_button(button_state) that exist
     #   .on_right which is connected to a function called handle_right_button(button_state) that exist
     # Here is one for free... btn.on_up = handle_up_button
+    btn.on_up = handle_up_button
+    btn.on_down = handle_down_button
+    btn.on_left = handle_left_button
+    btn.on_right = handle_right_button
 
     # TODO: 5. Note #4 is lower.  Added a lambda callback for on_backspace.  The syntax of lambda is:
     # button_object.on_backspace = lamdba predefined_inputs(state in this case): function_name(parameters)
     # Using lambda call the function handle_shutdown passing in the state and dc
+    btn.on_backspace = lambda state: handle_shutdown(state, dc)
 
     # Note there is also an enter button but sometimes that causes issues with Brickman when used
 
@@ -57,6 +62,8 @@ def main():
         btn.process()
         time.sleep(0.01)  # A short delay is important to allow other things to happen.
 
+    print("Goodbye!")
+    ev3.Sound.speak("Goodbye").wait()
 
 # ----------------------------------------------------------------------
 # Button event callback functions
@@ -71,14 +78,50 @@ def handle_up_button(button_state):
     """Handle IR / button event."""
     if button_state:
         print("Up button is pressed")
+        play_song_by_individual_tones()
     else:
         print("Up button was released")
+
+
+def handle_down_button(button_state):
+    """Handle IR / button event."""
+    if button_state:
+        print("Down button is pressed")
+        play_song_by_notes_list()
+    else:
+        print("Down button was released")
+
+
+def handle_left_button(button_state):
+    """Handle IR / button event."""
+    if button_state:
+        print("Left button is pressed")
+        speak()
+    else:
+        print("Left button was released")
+
+
+def handle_right_button(button_state):
+    """Handle IR / button event."""
+    if button_state:
+        print("Right button is pressed")
+        play_wav_file()
+    else:
+        print("Right button was released")
 
 
 # TODO: 6. Implement the handle_shutdown function.
 #   Function signature should be:  handle_shutdown(button_state, dc):
 #   When the button is pressed (state is true), print the word "back" set dc.running = False
 #   Look at the while loop in main to understand why this will end the program.
+
+def handle_shutdown(button_state, dc):
+    """Exit the program."""
+    if button_state:
+        print("Back button is pressed")
+        dc.running = False
+    else:
+        print("Back button was released")
 
 # You do not need to modify any code below this line. Just call these functions.
 

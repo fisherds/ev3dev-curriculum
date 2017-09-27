@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
-Contains example code snippets used in the Analog Sensors lecture.  Don't try to actually run this file!  Just snippets.
+Contains example code snippets used in the drive motor lecture.  Don't try to actually run this file!
+These are just snippets used in the lecture, not actual code to run!
 
 TODO: 1. PASSIVELY LISTEN TO THE LECTURE ABOUT ANALOG SENSORS
 https://docs.google.com/presentation/d/1U00IlFqIT_S2v9HV-TKSO6Y6foH4sDom9yytsV_PWfY/edit?usp=sharing
 
-Authors: David Fisher.  January 2017.
+Author: David Fisher
 """
 
 import ev3dev.ev3 as ev3
@@ -80,4 +81,3 @@ def pixy_example():
     print("value2: Y", pixy.value(2))
     print("value3: Width", pixy.value(3))
     print("value4: Height", pixy.value(4))
-

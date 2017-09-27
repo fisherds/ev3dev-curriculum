@@ -34,7 +34,9 @@ import mqtt_remote_method_calls as com
 def main():
     # TODO: 2. Setup an mqtt_client.  Notice that since you don't need to receive any messages you do NOT need to have
     # a MyDelegate class.  Simply construct the MqttClient with no parameter in the constructor (easy).
-    mqtt_client = None  # Delete this line, it was added temporarily so that the code we gave you had no errors.
+    mqtt_client = com.MqttClient()
+    # mqtt_client.connect_to_ev3()
+    mqtt_client.connect_to_ev3("35.194.247.175")  # Off campus use EV3's IP address as broker
 
     root = tkinter.Tk()
     root.title("MQTT Remote")
@@ -59,13 +61,15 @@ def main():
     # TODO: 3. Implement the callbacks for the drive buttons. Set both the click and shortcut key callbacks.
     # forward_button['command'] = lambda: some_callback1(mqtt_client, left_speed_entry, right_speed_entry)
     # root.bind('<Up>', lambda event: same_callback_as_above1(mqtt_client, left_speed_entry, right_speed_entry))
-
+    forward_button['command'] = lambda: send_drive_command(mqtt_client, left_speed_entry, right_speed_entry, 1, 1)
+    root.bind('<Up>', lambda event: send_drive_command(mqtt_client, left_speed_entry, right_speed_entry, 1, 1))
 
     left_button = ttk.Button(main_frame, text="Left")
     left_button.grid(row=3, column=0)
     # left_button['command'] = lambda: some_callback2(mqtt_client, left_speed_entry, right_speed_entry)
     # root.bind('<Left>', lambda event: same_callback_as_above2(mqtt_client, left_speed_entry, right_speed_entry))
-
+    left_button['command'] = lambda: send_drive_command(mqtt_client, left_speed_entry, right_speed_entry, -0.5, 0.5)
+    root.bind('<Left>', lambda event: send_drive_command(mqtt_client, left_speed_entry, right_speed_entry, -0.5, 0.5))
 
     stop_button = ttk.Button(main_frame, text="Stop")
     stop_button.grid(row=3, column=1)
@@ -76,13 +80,15 @@ def main():
     right_button.grid(row=3, column=2)
     # right_button['command'] = lambda: some_callback3(mqtt_client, left_speed_entry, right_speed_entry)
     # root.bind('<Right>', lambda event: same_callback_as_above3(mqtt_client, left_speed_entry, right_speed_entry))
-
+    right_button['command'] = lambda: send_drive_command(mqtt_client, left_speed_entry, right_speed_entry, 0.5, -0.5)
+    root.bind('<Right>', lambda event: send_drive_command(mqtt_client, left_speed_entry, right_speed_entry, 0.5, -0.5))
 
     back_button = ttk.Button(main_frame, text="Back")
     back_button.grid(row=4, column=1)
     # back_button['command'] = lambda: some_callback4(mqtt_client, left_speed_entry, right_speed_entry)
     # root.bind('<Down>', lambda event: same_callback_as_above4(mqtt_client, left_speed_entry, right_speed_entry))
-
+    back_button['command'] = lambda: send_drive_command(mqtt_client, left_speed_entry, right_speed_entry, -1, -1)
+    root.bind('<Down>', lambda event: send_drive_command(mqtt_client, left_speed_entry, right_speed_entry, -1, -1))
 
     up_button = ttk.Button(main_frame, text="Up")
     up_button.grid(row=5, column=0)
@@ -93,6 +99,12 @@ def main():
     down_button.grid(row=6, column=0)
     down_button['command'] = lambda: send_down(mqtt_client)
     root.bind('<j>', lambda event: send_down(mqtt_client))
+
+    # Optional extra key press features to turn small set amounts left or right. You are not required to implement this.
+    root.bind('<a>', lambda event: send_turn_amount(mqtt_client, 20))
+    root.bind('<s>', lambda event: send_turn_amount(mqtt_client, 10))
+    root.bind('<d>', lambda event: send_turn_amount(mqtt_client, -10))
+    root.bind('<f>', lambda event: send_turn_amount(mqtt_client, -20))
 
     # Buttons for quit and exit
     q_button = ttk.Button(main_frame, text="Quit")
@@ -110,7 +122,11 @@ def main():
 # Tkinter callbacks
 # ----------------------------------------------------------------------
 # TODO: 4. Implement the functions for the drive button callbacks.
-
+def send_drive_command(mqtt_client, left_speed_entry, right_speed_entry, left_direction, right_direction):
+    left_sp = left_direction * int(left_speed_entry.get())
+    right_sp = right_direction * int(right_speed_entry.get())
+    print("drive", [left_sp, right_sp])
+    mqtt_client.send_message("drive", [left_sp, right_sp])
 
 
 def send_stop(mqtt_client):

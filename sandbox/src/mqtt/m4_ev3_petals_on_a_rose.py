@@ -5,7 +5,7 @@ This module contains code that needs to run on an EV3 (notice the filename).
 You shouldn't look at this code at all.  It's intentionally mysterious and that's part of the fun of this module.
 It's a puzzle you have to solve.  If you look at the code it'll give away the fun. :)
 
-Authors: David Fisher.  January 2017.
+Authors: David Fisher.
 """
 
 # TODO: 1. Have someone on your team run this module on the EV3.  It uses the screen on the EV3.  Whenever you want to
@@ -97,6 +97,8 @@ class GameMaster(object):
                     ev3.Sound.speak("Correct. You win!").wait()
                     ev3.Sound.play("/home/robot/csse120/assets/sounds/awesome_pcm.wav").wait()
                     print("Great work! Now let's make the game a bit harder. :)")
+                    self.mqtt_client.send_message("guess_response", ["You are done! You can get your checkoff"])
+                    self.mqtt_client.send_message("guess_response", ["Optional: You can now play with more dots."])
                     self.max_die_value = 9  # Make the game a little harder now.
                     self.consecutive_correct = 0
                 else:
@@ -139,10 +141,15 @@ def main():
     my_delegate = GameMaster()
     mqtt_client = com.MqttClient(my_delegate)
     my_delegate.mqtt_client = mqtt_client
-    mqtt_client.connect_to_pc()
+    #mqtt_client.connect_to_pc()
+    mqtt_client.connect_to_pc("35.194.247.175")
     # mqtt_client.connect_to_pc("localhost")  # Off campus use EV3 as broker.
     my_delegate.loop_forever()
-    print("Shutdown complete.")
+    teary_eyes = Image.open("/home/robot/csse120/assets/images/ev3_lego/eyes_tear.bmp")
+    my_delegate.lcd.image.paste(teary_eyes, (0, 0))
+    my_delegate.lcd.update()
+    print("If you ran via SSH and typed 'sudo chvt 6' earlier, don't forget to type")
+    print("'sudo chvt 1' to get Brickman back after you finish this program.")
 
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.

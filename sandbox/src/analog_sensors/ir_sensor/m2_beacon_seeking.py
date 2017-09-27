@@ -42,24 +42,24 @@ def main():
 
 
 def seek_beacon(robot):
-    """ Uses the IR Sensor in IR-SEEK mode to find the beacon."""
+    """
+    Uses the IR Sensor in IR-SEEK mode to find the beacon.
+
+    Type hints:
+      :type robot: robo.Snatch3r
+    """
 
     # TODO: 2. Uncomment the line below to put the robot's IR sensor into IR-SEEK mode.
-    # robot.ir_sensor.mode = "IR-SEEK"
+    beacon_seeker = ev3.BeaconSeeker(channel=1)
 
     forward_speed = 300
     turn_speed = 100
 
-    # Set the value for the sensor readings based on the IR remote channel
-    # See http://www.ev3dev.org/docs/sensors/lego-ev3-infrared-sensor/
-    heading_value_index = 0
-    distance_value_index = 1
-
     while not robot.touch_sensor.is_pressed:
         # The touch sensor can be used to abort the attempt (sometimes handy during testing)
-        current_heading = robot.ir_sensor.value(heading_value_index)
-        current_distance = robot.ir_sensor.value(distance_value_index)
-        if current_distance == 100:
+        current_heading = beacon_seeker.heading
+        current_distance = beacon_seeker.distance
+        if current_distance == -128:
             print("IR Remote not found. Distance: ", current_distance)
             robot.stop()
         else:
@@ -82,15 +82,21 @@ def seek_beacon(robot):
             if math.fabs(current_heading) < 2:
                 # Close enough of a heading to move forward
                 print("On the right heading. Distance: ", current_distance)
-                # You add more!
-
-
-
-
-
-
-
-
+                if current_distance > 0:
+                    robot.drive(forward_speed, forward_speed)
+                else:
+                    robot.stop()
+                    return
+            elif math.fabs(current_heading) < 10:
+                # Close enough to adjust
+                print("Adjusting heading: ", current_heading)
+                if current_heading < 0:
+                    robot.drive(-turn_speed, turn_speed)
+                else:
+                    robot.drive(turn_speed, -turn_speed)
+            else:
+                print("Heading is too far off to fix: ", current_heading)
+                robot.stop()
 
         time.sleep(0.2)
     robot.stop()  # In case the touch_sensor was pressed to abort.
