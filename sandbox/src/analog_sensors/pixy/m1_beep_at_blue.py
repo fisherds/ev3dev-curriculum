@@ -6,11 +6,11 @@ the Pixy to detect blue using Pixymon before starting to implement this module.
 
 You should print out the x, y, width, and height readings from the Pixy (much like the print_pixy_readings example).
 
-If the width reading is greater than 0 then you should make your robot beep.  If you are getting false readings you try
-setting the threshold higher than 0 (see what works for your environment). After a beep wait for at least 1 second to
-avoid lots of annoying beeps.
+If the width reading is greater than 0 then you should make your robot beep.  If you are getting false positives (the 
+robot beeps thinking blue is present, but no blue is present) try setting the threshold higher than 0 (see what works
+for your environment). After a beep wait for at least 1 second to avoid lots of annoying beeps.
 
-Authors: David Fisher and PUT_YOUR_NAME_HERE.  February 2017.
+Authors: David Fisher and PUT_YOUR_NAME_HERE.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import ev3dev.ev3 as ev3
@@ -35,7 +35,6 @@ def main():
         #   self.pixy = ev3.Sensor(driver_name="pixy-lego")
         #   assert self.pixy
         # Then here you can use a command like width = robot.pixy.value(3)
-
         width = robot.pixy.value(3)
         print("(X, Y) = ({}, {})    Width = {} Height = {}".format(
             robot.pixy.value(1), robot.pixy.value(2), width, robot.pixy.value(4)))
@@ -44,10 +43,15 @@ def main():
             ev3.Sound.beep().wait()
             time.sleep(1.5)
             print("BTW press the touch sensor to exit this program.")
+
         time.sleep(0.1)
 
     print("Goodbye!")
     ev3.Sound.speak("Goodbye").wait()
+
+# TODO: 3. Call over a TA or instructor to sign your team's checkoff sheet.
+#
+# Observations you should make, the Pixy cam can detect colors.  That's just neat. ;)
 
 
 # ----------------------------------------------------------------------

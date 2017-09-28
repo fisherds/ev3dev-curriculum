@@ -28,7 +28,6 @@ def main():
     mqtt_client.connect_to_pc("35.194.247.175")
 
     robot = robo.Snatch3r()
-    # Add the pixy property to that Snatch3r class so that it is available in your library.
     robot.pixy.mode = "SIG1"
 
     while not robot.touch_sensor.is_pressed:
@@ -52,9 +51,12 @@ def main():
     ev3.Sound.speak("Goodbye").wait()
     mqtt_client.close()
 
+# TODO: 5. Call over a TA or instructor to sign your team's checkoff sheet.
+#
+# Observations you should make, if the EV3 has data the PC can know that data too using MQTT.
+
 
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # ----------------------------------------------------------------------
 main()
-
