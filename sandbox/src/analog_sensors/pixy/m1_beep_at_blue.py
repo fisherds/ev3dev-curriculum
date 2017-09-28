@@ -36,10 +36,14 @@ def main():
         #   assert self.pixy
         # Then here you can use a command like width = robot.pixy.value(3)
 
+        width = robot.pixy.value(3)
+        print("(X, Y) = ({}, {})    Width = {} Height = {}".format(
+            robot.pixy.value(1), robot.pixy.value(2), width, robot.pixy.value(4)))
 
-
-
-
+        if width > 0:
+            ev3.Sound.beep().wait()
+            time.sleep(1.5)
+            print("BTW press the touch sensor to exit this program.")
         time.sleep(0.1)
 
     print("Goodbye!")

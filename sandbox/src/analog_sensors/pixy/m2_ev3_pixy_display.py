@@ -10,6 +10,7 @@ import ev3dev.ev3 as ev3
 import time
 
 import robot_controller as robo
+import mqtt_remote_method_calls as com
 
 
 def main():
@@ -22,12 +23,13 @@ def main():
 
     # TODO: 2. Create an MqttClient (no delegate needed since EV3 will only send data, so an empty constructor is fine)
     # Then connect to the pc using the connect_to_pc method.
-
-
-
+    mqtt_client = com.MqttClient()  # Only sending messages so no delegate needed.
+    # mqtt_client.connect_to_pc()
+    mqtt_client.connect_to_pc("35.194.247.175")
 
     robot = robo.Snatch3r()
     # Add the pixy property to that Snatch3r class so that it is available in your library.
+    robot.pixy.mode = "SIG1"
 
     while not robot.touch_sensor.is_pressed:
 
@@ -37,8 +39,12 @@ def main():
         # TODO: 4. Send the Pixy values to the PC by calling the on_rectangle_update method
         # If you open m2_pc_pixy_display you can see the parameters for that method [x, y, width, height]
 
-
-
+        x = robot.pixy.value(1)
+        y = robot.pixy.value(2)
+        width = robot.pixy.value(3)
+        height = robot.pixy.value(4)
+        print("Sent (X, Y) = ({}, {})    Width = {} Height = {}".format(x, y, width, height))
+        mqtt_client.send_message("on_rectangle_update", [x, y, width, height])
 
         time.sleep(0.25)
 

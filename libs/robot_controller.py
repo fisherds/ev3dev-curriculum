@@ -59,13 +59,13 @@ class Snatch3r(object):
 
         # Connect the four sensors to input ports 1-4
         self.touch_sensor = ev3.TouchSensor()  # address=in1
-        #self.pixy = ev3.Sensor(driver_name="pixy-lego")  # address=in2:i2c1
+        self.pixy = ev3.Sensor(driver_name="pixy-lego")  # address=in2:i2c1
         self.color_sensor = ev3.ColorSensor()  # address=in3
         self.ir_sensor = ev3.InfraredSensor()  # address=in4
 
         # Check that all the sensors are actually connected
         assert self.touch_sensor
-        #assert self.pixy
+        assert self.pixy
         assert self.color_sensor
         assert self.ir_sensor
 

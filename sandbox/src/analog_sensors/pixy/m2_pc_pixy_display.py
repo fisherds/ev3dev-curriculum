@@ -50,8 +50,8 @@ def main():
     # Create an MQTT connection
     my_delegate = MyDelegate(canvas, rect_tag)
     mqtt_client = com.MqttClient(my_delegate)
-    mqtt_client.connect_to_ev3()
-    # mqtt_client.connect_to_ev3("35.194.247.175")  # Off campus IP address of a GCP broker
+    # mqtt_client.connect_to_ev3()
+    mqtt_client.connect_to_ev3("35.194.247.175")  # Off campus IP address of a GCP broker
     root.mainloop()
 
 
