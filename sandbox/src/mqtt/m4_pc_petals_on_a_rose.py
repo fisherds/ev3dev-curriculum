@@ -4,10 +4,10 @@ The goal for this module is to interact with your EV3 using MQTT.  You will only
 You will need to run the m4_ev3_petals_on_a_rose.py on your EV3, but you don't need to modify that file (you don't even
 need to ever open that file).  Your EV3 is acting as a puzzle, your goal is to use MQTT to solve the puzzle.
 
-The way that the puzzle works is that five dice roll and somehow they combine to a single number.
+The way the puzzle works is that five dice roll and somehow they combine to a single number.
 You need to figure out the pattern and win the game.  To win the game you must...
 
-Correctly guess the number 3 times in a row with 5 dice.
+Correctly guess the number 3 times in a row (while using 5 dice).
 
 Don't plan to win by random guessing, try to figure out the pattern. Before you can figure out the pattern though, first
 you need to write the code to make guesses.  Additionally if you write more code you can tell the EV3 how to change the
@@ -25,11 +25,11 @@ import mqtt_remote_method_calls as com
 
 
 # TODO: 2. Create a class. Feel free to call it MyDelegate.
-# Within that class you don't need a constructor (an empty constructor comes for free)
+# Within that class you don't even need an __init__ constructor (an empty constructor comes for free)
 
 # TODO: 3. Create a method named guess_response within MyDelegate.
 # guess_response needs to receive self and a string, feel free to call the string parameter message_from_ev3
-# within the body of the method print message_from_ev3.  That's it.
+# within the body of the method print message_from_ev3.  That's it.  You simply need to hear what EV3 tells you.
 
 
 class MyDelegate(object):
@@ -86,6 +86,7 @@ def guess(mqtt_client, number_to_guess_entry):
     # TODO: 5. Uncomment the line of code below to make guesses with EV3.
     mqtt_client.send_message("guess", [int(number_to_guess_entry.get())])
     number_to_guess_entry.delete(0, 'end')
+    # Note: You can play the game with only TO DO 5 complete, but it will be easier to solve if you do TO DO 6 as well.
 
 
 def set_num_dice(mqtt_client, num_dice_entry):

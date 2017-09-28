@@ -25,7 +25,7 @@ def main():
             break
 
         sides = int(input("Number of sides: "))
-        # Try a negative value for Number of sides to drive CW around the polygon.
+        # Tip for later, try a negative value for Number of sides: to drive CW around the polygon instead of CCW.
         if sides == 0:
             break
         turn_amount = 360 / sides
@@ -35,17 +35,21 @@ def main():
             break
 
         # TODO: 2. Individually implement the code here to use your drive_inches and turn_degrees library methods to
-        # drive a polygon with the correct number of sides. Hint 3 lines of code total need to be added.
+        # drive a polygon with the correct number of sides. (Hint: You will add 3 lines of code. What are they?).
         for _ in range(sides):
             robot.drive_inches(edge_length_in, speed_deg_per_second)
             robot.turn_degrees(turn_amount, speed_deg_per_second)
 
+        # TODO: 3. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.
+        #   You are done with the Motors unit!
+        #
+        # Observations you should make, by making library functions you can make this program in only 3 lines of code.
+
+    print("Goodbye!")
     ev3.Sound.speak("Goodbye").wait()
+
 
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # ----------------------------------------------------------------------
 main()
-
-
-
