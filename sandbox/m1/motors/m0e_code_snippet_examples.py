@@ -32,8 +32,8 @@ def motor_movement_commands():
     left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
     left_motor.run_forever(speed_sp=-300)
     left_motor.stop(stop_action="coast")
-    left_motor.run_to_abs_pos(position_sp=-360, speed_sp=400, stop_action="brake")
-    left_motor.run_to_rel_pos(position_sp=720, speed_sp=400, stop_action="brake")
+    left_motor.run_to_abs_pos(position_sp=-360, speed_sp=400, stop_action=ev3.Motor.STOP_ACTION_BRAKE)
+    left_motor.run_to_rel_pos(position_sp=720, speed_sp=400, stop_action=ev3.Motor.STOP_ACTION_BRAKE)
     left_motor.run_timed(time_sp=3000, speed_sp=400, stop_action="coast")
     # Units
     # position_sp --> degrees
